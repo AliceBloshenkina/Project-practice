@@ -115,6 +115,7 @@ class Session():
     def fast_match_img(self):
         """Returns the blurred image thumbnails of users in fast-match, TinderGold"""
         return requests.get('/v2/fast-match/preview' , headers=config.headers).content
+        
 
 if __name__ == '__main__':
     pass

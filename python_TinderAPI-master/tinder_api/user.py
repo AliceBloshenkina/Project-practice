@@ -26,16 +26,16 @@ class UserModel():
         self.top_song = top_song
         self.instagram_photos = instagram_photos
 
-    def report(self, cause, text=''):
-        """Reports the user
-        Cause:
-            0 : 'other' requires text
-            1 : 'spam'
-            4 : 'inappropriate photos'
-        """
-        resp = r.post('/report/{}'.format(uid),
-                {"cause": cause, "text": text})
-        return resp
+    # def report(self, cause, text=''):
+    #     """Reports the user
+    #     Cause:
+    #         0 : 'other' requires text
+    #         1 : 'spam'
+    #         4 : 'inappropriate photos'
+    #     """
+    #     resp = r.post('/report/{}'.format(uid),
+    #             {"cause": cause, "text": text})
+    #     return resp
 
 class NormalUser(UserModel):
     def __init__(self, uid, name, bio, age, birth_date, photos, gender,
@@ -144,7 +144,7 @@ class UserController:
 
     def get_data(self):
         """Returns the data of the user"""
-        if self.user_type is 'Me':
+        if self.user_type == 'Me':
             data = r.get('/profile')
             return data
         else:
@@ -180,15 +180,15 @@ class UserController:
         ping_time = self.const.ping_time
         top_song = self._decode_theme_song()
         instagram_photos = [photo.image for photo in self.const.instagram.photos]
-        if self.user_type is 'Normal':
+        if self.user_type == 'Normal':
             return NormalUser(self.id, name, bio, age, birth_date, photos, gender,
                     distance, job_name, job_title, school_name, school_id,
                     ping_time, top_song, instagram_photos)
-        elif self.user_type is 'Match':
+        elif self.user_type == 'Match':
             return MatchUser(self.id, self.match_id, name, bio, age, birth_date, photos, gender,
                     distance, job_name, job_title, school_name, school_id,
                     ping_time, top_song, instagram_photos)
-        elif self.user_type is 'Me':
+        elif self.user_type == 'Me':
             return UserModel(self.id, name, bio, age, birth_date, photos, gender,
                     distance, job_name, job_title, school_name, school_id,
                     ping_time, top_song, instagram_photos)
@@ -208,9 +208,9 @@ class UserController:
     def _decode_gender(self):
         """Converts gender to a human readable format"""
         gender = self.const.gender
-        if gender is 1:
+        if gender == 1:
             return 'female'
-        elif gender is 0:
+        elif gender == 0:
             return 'male'
 
     def _decode_distance(self):
